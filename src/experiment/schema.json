@@ -1,0 +1,14 @@
+[
+  {
+    "namespace": "toCcColumn",
+    "functions": [
+      {
+        "name": "register",
+        "type": "function",
+        "async": true,
+        "description": "Adds the To & Cc column to the message list.",
+        "parameters": []
+      }
+    ]
+  }
+]
