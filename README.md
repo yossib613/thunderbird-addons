@@ -14,7 +14,10 @@ Thunderbird's built-in *Recipient* column shows only the To field. This add-on s
 
 ## Requirements
 
-Thunderbird 153 or newer.
+Thunderbird 153 to 160.
+
+The add-on uses Thunderbird internals, so the add-on site requires a maximum version. It is raised
+after checking each new Thunderbird release.
 
 ## Install
 

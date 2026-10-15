@@ -1,7 +1,7 @@
 ﻿{
   "manifest_version": 2,
   "name": "To & Cc Column",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Adds a 'To & Cc' column to the message list.",
   "author": "Solutionist Ltd",
   "homepage_url": "https://github.com/yossib613/thunderbird-to-cc-column",
@@ -11,7 +11,8 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "to-cc-column@solutionist-ltd.com",
-      "strict_min_version": "153.0"
+      "strict_min_version": "153.0",
+      "strict_max_version": "160.*"
     }
   },
   "background": {
