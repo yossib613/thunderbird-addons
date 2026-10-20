@@ -1,0 +1,34 @@
+[
+  {
+    "namespace": "notesColumn",
+    "functions": [
+      {
+        "name": "register",
+        "type": "function",
+        "async": true,
+        "description": "Adds the Notes column to the message list.",
+        "parameters": []
+      },
+      {
+        "name": "setTexts",
+        "type": "function",
+        "async": true,
+        "description": "Sets the column text for each Message-ID, then redraws the column.",
+        "parameters": [
+          {
+            "name": "texts",
+            "type": "object",
+            "description": "Map of Message-ID (no angle brackets) to the cell text.",
+            "additionalProperties": { "type": "string" }
+          },
+          {
+            "name": "laterTexts",
+            "type": "object",
+            "description": "Map of Message-ID to the cell texts of the later messages that reference it.",
+            "additionalProperties": { "type": "array", "items": { "type": "string" } }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Note &amp; reminder</title>
+  <link rel="stylesheet" href="dialog.css">
+</head>
+<body>
+  <h1 id="subject"></h1>
+
+  <label for="note">Note</label>
+  <textarea id="note"></textarea>
+
+  <fieldset>
+    <legend><label><input type="checkbox" id="remind"> Remind me</label></legend>
+    <div class="row">
+      <input type="datetime-local" id="dueAt">
+    </div>
+    <div class="row">
+      <button type="button" data-quick="hour">In 1 hour</button>
+      <button type="button" data-quick="tomorrow">Tomorrow 09:00</button>
+      <button type="button" data-quick="monday">Next Monday 09:00</button>
+    </div>
+    <div class="row">
+      <label><input type="checkbox" id="markUnread" checked> Mark as unread</label>
+      <label><input type="checkbox" id="flag" checked> Flag</label>
+    </div>
+  </fieldset>
+
+  <div class="error" id="error"></div>
+
+  <div class="buttons">
+    <button type="button" id="remove">Remove</button>
+    <span class="spacer"></span>
+    <button type="button" id="cancel">Cancel</button>
+    <button type="button" id="save">Save</button>
+  </div>
+
+  <script src="../common.js"></script>
+  <script src="note.js"></script>
+</body>
+</html>

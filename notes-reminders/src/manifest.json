@@ -1,0 +1,52 @@
+{
+  "manifest_version": 2,
+  "name": "Notes & Reminders",
+  "version": "1.2.2",
+  "description": "Add a note and a reminder to any message. Notes show in a message list column, also on collapsed threads.",
+  "author": "Solutionist Ltd",
+  "icons": {
+    "64": "icon.svg"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "notes-reminders@solutionist-ltd.com",
+      "strict_min_version": "153.0",
+      "strict_max_version": "160.*"
+    }
+  },
+  "permissions": [
+    "accountsRead",
+    "messagesRead",
+    "messagesUpdate",
+    "menus",
+    "storage",
+    "alarms",
+    "notifications"
+  ],
+  "background": {
+    "scripts": ["common.js", "background.js"]
+  },
+  "browser_action": {
+    "default_title": "All notes & reminders",
+    "default_label": "Notes",
+    "default_icon": "icon.svg"
+  },
+  "options_ui": {
+    "page": "dialog/manager.html",
+    "open_in_tab": true
+  },
+  "message_display_action": {
+    "default_title": "Note & reminder",
+    "default_icon": "icon.svg"
+  },
+  "experiment_apis": {
+    "notesColumn": {
+      "schema": "experiment/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "paths": [["notesColumn"]],
+        "script": "experiment/implementation.js"
+      }
+    }
+  }
+}

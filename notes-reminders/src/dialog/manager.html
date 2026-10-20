@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Notes &amp; reminders</title>
+  <link rel="stylesheet" href="dialog.css">
+</head>
+<body>
+  <h1>Notes &amp; reminders</h1>
+
+  <div class="toolbar">
+    <input type="search" id="search" placeholder="Search subject, sender or note">
+    <select id="show">
+      <option value="all">All</option>
+      <option value="reminders">With a reminder</option>
+      <option value="due">Due now</option>
+      <option value="notes">Notes only</option>
+    </select>
+    <label>Check every <input type="number" id="checkMinutes" min="1" max="1440" step="1"> min</label>
+    <button type="button" id="checkNow">Check now</button>
+    <span class="muted" id="status"></span>
+  </div>
+  <div class="error" id="statusError"></div>
+
+  <table>
+    <thead>
+      <tr><th>Message</th><th>Note</th><th>Reminder</th><th></th></tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <p class="muted" id="empty" hidden>No notes or reminders.</p>
+
+  <template id="row">
+    <tr>
+      <td class="message">
+        <a class="subject" title="Open the message"></a>
+        <div class="muted author"></div>
+        <div class="muted state"></div>
+      </td>
+      <td class="note"><textarea></textarea></td>
+      <td>
+        <div class="row"><input type="datetime-local" class="dueAt"></div>
+        <div class="row">
+          <label><input type="checkbox" class="markUnread"> Unread</label>
+          <label><input type="checkbox" class="flag"> Flag</label>
+        </div>
+        <div class="error rowError"></div>
+      </td>
+      <td class="actions">
+        <button type="button" class="save" disabled>Save</button>
+        <button type="button" class="done">Done</button>
+        <button type="button" class="delete">Delete</button>
+      </td>
+    </tr>
+  </template>
+
+  <script src="../common.js"></script>
+  <script src="manager.js"></script>
+</body>
+</html>

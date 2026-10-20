@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Reminders due</title>
+  <link rel="stylesheet" href="dialog.css">
+</head>
+<body>
+  <h1>Reminders due</h1>
+  <div id="list"></div>
+
+  <template id="reminder">
+    <div class="reminder">
+      <div class="subject"></div>
+      <div class="muted due"></div>
+      <div class="note"></div>
+      <div class="row">
+        <button type="button" data-action="open">Open</button>
+        <button type="button" data-action="hour">Snooze 1 hour</button>
+        <button type="button" data-action="tomorrow">Tomorrow 09:00</button>
+        <span class="spacer"></span>
+        <button type="button" data-action="done">Done</button>
+      </div>
+    </div>
+  </template>
+
+  <script src="../common.js"></script>
+  <script src="due.js"></script>
+</body>
+</html>
