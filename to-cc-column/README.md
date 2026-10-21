@@ -23,7 +23,7 @@ after checking each new Thunderbird release.
 
 From [addons.thunderbird.net](https://addons.thunderbird.net) (once listed), or:
 
-1. Download the `.xpi` file from the [Releases](../../releases) page.
+1. Download the `.xpi` file from the [Releases](https://github.com/yossib613/thunderbird-addons/releases) page.
 2. In Thunderbird, open **Tools → Add-ons and Themes**.
 3. Click the gear icon, then **Install Add-on From File…**, and select the `.xpi` file.
 4. If the column is not visible, right-click the message list column header and enable **To & Cc**.
