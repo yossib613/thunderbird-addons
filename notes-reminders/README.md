@@ -3,7 +3,7 @@
 Add a note and a reminder to any message. A **Notes** column in the message list shows them:
 
 ```
-⏰ Tue 21 Oct, 09:00 · 📝 Call Dave back about the invoice
+⏰ 21/10/2026, 09:00 · 📝 Call Dave back about the invoice
 ```
 
 - **Collapsed threads.** The top row of a thread also shows the notes of the later messages in it,
@@ -14,7 +14,7 @@ Add a note and a reminder to any message. A **Notes** column in the message list
   in another account or folder has the same `Message-ID`, so it shows the same note and reminder.
 - **Reminders.** When a reminder is due, the add-on marks every copy of the message as unread and/or
   flagged, shows a notification, and opens a *Reminders due* window. There you can open the message,
-  snooze it, or mark it done. Reminders that fall due while Thunderbird is closed fire at the next start.
+  mark it done, or snooze it for 30 minutes, 1 hour, 1 day, or until a date and time you pick. Reminders that fall due while Thunderbird is closed fire at the next start.
   Reminders that fired but were not snoozed or done show again at the next start.
 - **Notes manager.** One window lists all notes and reminders. You can search, filter, and edit them
   in place, and set how often reminders are checked (default: every minute).

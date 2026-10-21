@@ -2,39 +2,57 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
   <title>Note &amp; reminder</title>
   <link rel="stylesheet" href="dialog.css">
+  <link rel="stylesheet" href="note.css">
 </head>
 <body>
-  <h1 id="subject"></h1>
+  <main>
+    <div class="card">
+      <div class="stub none" id="stub" aria-hidden="true">
+        <span class="stub-time"></span>
+        <span class="stub-date"></span>
+      </div>
+      <div class="card-body">
+        <h1 class="subject" id="subject"></h1>
+        <p class="author" id="author"></p>
 
-  <label for="note">Note</label>
-  <textarea id="note"></textarea>
+        <div class="section">
+          <label class="label" for="note">Note</label>
+          <textarea class="note-field" id="note"></textarea>
+        </div>
 
-  <fieldset>
-    <legend><label><input type="checkbox" id="remind"> Remind me</label></legend>
-    <div class="row">
-      <input type="datetime-local" id="dueAt">
+        <div class="section" role="group" aria-labelledby="remindLabel">
+          <label class="check" id="remindLabel"><input type="checkbox" id="remind"> Remind me</label>
+          <div class="chips quick">
+            <button type="button" class="chip" data-quick="hour">1 hour</button>
+            <button type="button" class="chip" data-quick="day">1 day</button>
+            <button type="button" class="chip" data-quick="tomorrow">Tomorrow 09:00</button>
+            <button type="button" class="chip" data-quick="monday">Next Monday 09:00</button>
+          </div>
+          <div class="when">
+            <label class="when-label">At
+              <input type="datetime-local" id="dueAt">
+            </label>
+            <div class="when-checks">
+              <span class="label">When it is due</span>
+              <label class="check"><input type="checkbox" id="markUnread" checked> Mark as unread</label>
+              <label class="check"><input type="checkbox" id="flag" checked> Flag</label>
+            </div>
+          </div>
+        </div>
+
+        <p class="error" id="error" role="alert"></p>
+
+        <div class="actions">
+          <button type="button" class="btn btn-danger" id="remove">Remove note</button>
+          <button type="button" class="btn btn-secondary push" id="cancel">Cancel</button>
+          <button type="button" class="btn btn-primary" id="save">Save</button>
+        </div>
+      </div>
     </div>
-    <div class="row">
-      <button type="button" data-quick="hour">In 1 hour</button>
-      <button type="button" data-quick="tomorrow">Tomorrow 09:00</button>
-      <button type="button" data-quick="monday">Next Monday 09:00</button>
-    </div>
-    <div class="row">
-      <label><input type="checkbox" id="markUnread" checked> Mark as unread</label>
-      <label><input type="checkbox" id="flag" checked> Flag</label>
-    </div>
-  </fieldset>
-
-  <div class="error" id="error"></div>
-
-  <div class="buttons">
-    <button type="button" id="remove">Remove</button>
-    <span class="spacer"></span>
-    <button type="button" id="cancel">Cancel</button>
-    <button type="button" id="save">Save</button>
-  </div>
+  </main>
 
   <script src="../common.js"></script>
   <script src="note.js"></script>

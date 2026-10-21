@@ -18,10 +18,17 @@ async function getReferences(id) {
   }
 }
 
+// The stub shows the reminder as it is set right now.
+function updateStub() {
+  const dueAt = $("remind").checked ? fromInputValue($("dueAt").value) : null;
+  fillStub($("stub"), dueAt, !dueAt ? "none" : dueAt > Date.now() ? "upcoming" : "due");
+}
+
 function setDue(ms) {
   $("dueAt").value = toInputValue(ms);
   $("remind").checked = true;
   $("error").textContent = "";
+  updateStub();
 }
 
 (async () => {
@@ -31,23 +38,40 @@ function setDue(ms) {
   const item = await getItem(messageId);
 
   $("subject").textContent = message.subject || "(no subject)";
-  $("subject").title = message.subject;
+  $("author").textContent = authorName(message.author);
+  $("author").title = message.author || "";
   if (item) {
     $("note").value = item.note || "";
-    $("markUnread").checked = item.markUnread;
-    $("flag").checked = item.flag;
+    $("markUnread").checked = item.markUnread ?? true;
+    $("flag").checked = item.flag ?? true;
     if (item.dueAt) {
       setDue(item.dueAt);
     }
   }
-  $("remove").disabled = !item;
+  updateStub();
+  $("remove").hidden = !item;
   $("note").focus();
 
-  const quick = { hour: () => inHours(1), tomorrow: () => tomorrowAt(9), monday: () => nextMondayAt(9) };
+  const quick = {
+    hour: () => inHours(1),
+    day: () => inHours(24),
+    tomorrow: () => tomorrowAt(9),
+    monday: () => nextMondayAt(9),
+  };
   for (const button of document.querySelectorAll("[data-quick]")) {
     button.addEventListener("click", () => setDue(quick[button.dataset.quick]()));
   }
-  $("dueAt").addEventListener("change", () => ($("remind").checked = !!$("dueAt").value));
+  $("dueAt").addEventListener("input", () => {
+    $("remind").checked = !!$("dueAt").value;
+    $("error").textContent = "";
+    updateStub();
+  });
+  $("remind").addEventListener("change", () => {
+    if ($("remind").checked && !$("dueAt").value) {
+      $("dueAt").value = toInputValue(inHours(1));
+    }
+    updateStub();
+  });
 
   $("save").addEventListener("click", async () => {
     let dueAt = null;

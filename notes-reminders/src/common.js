@@ -117,6 +117,35 @@ function formatDue(ms) {
   });
 }
 
+// The stub shows the time large and the date small.
+function formatStubTime(ms) {
+  return new Date(ms).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+}
+
+function formatStubDate(ms) {
+  return new Date(ms).toLocaleDateString(undefined, { weekday: "short", day: "numeric", month: "short" });
+}
+
+// Fills a .stub element. state: "due", "upcoming" or "none".
+function fillStub(stub, ms, state) {
+  stub.classList.toggle("upcoming", state == "upcoming");
+  stub.classList.toggle("none", state == "none");
+  stub.querySelector(".stub-time").textContent = state == "none" ? "No reminder" : formatStubTime(ms);
+  stub.querySelector(".stub-date").textContent = state == "none" ? "" : formatStubDate(ms);
+}
+
+// "dd/mm/yyyy, HH:MM", for the message list column.
+function formatShort(ms) {
+  const d = new Date(ms);
+  const pad = n => String(n).padStart(2, "0");
+  return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}, ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+// "Dave Morgan <dave@example.com>" -> "Dave Morgan". Falls back to the full value.
+function authorName(author) {
+  return (author || "").replace(/\s*<[^>]*>\s*$/, "").replace(/^"(.*)"$/, "$1") || author || "";
+}
+
 // <input type="datetime-local"> works in local time with no time zone.
 function toInputValue(ms) {
   const d = new Date(ms);

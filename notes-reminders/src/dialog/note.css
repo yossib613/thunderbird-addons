@@ -1,0 +1,27 @@
+/* Note editor. Shared parts are in dialog.css. */
+
+main {
+  padding: 12px;
+}
+
+.quick {
+  margin-top: 8px;
+}
+
+.when {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px 20px;
+  margin-top: 10px;
+}
+
+.when-label {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+}
+
+.when-checks .label {
+  margin-bottom: 4px;
+}

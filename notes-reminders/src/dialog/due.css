@@ -1,0 +1,69 @@
+/* "Reminders due" window. Shared parts are in dialog.css. */
+
+.reminders {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.reminder {
+  transition: opacity 200ms ease;
+}
+
+.note {
+  margin: 10px 0 0;
+  padding: 6px 10px;
+  border-inline-start: 3px solid var(--amber);
+  background: var(--amber-wash);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-width: 70ch;
+}
+
+.note:empty,
+.confirm:empty {
+  display: none;
+}
+
+.picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.picker-label {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+}
+
+.confirm {
+  margin: 12px 0 0;
+  font-weight: 600;
+}
+
+/* After Snooze or Done: show what happened, then the reminder leaves the list. */
+.reminder.resolved .actions,
+.reminder.resolved .snooze,
+.reminder.resolved .picker {
+  display: none;
+}
+
+.reminder.resolved .stub {
+  background: var(--line);
+  color: var(--muted);
+}
+
+.reminder.leaving {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reminder {
+    transition: none;
+  }
+}

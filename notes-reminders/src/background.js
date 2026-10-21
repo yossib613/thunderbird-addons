@@ -11,7 +11,7 @@ let checking = false;
 function cellText(item) {
   const parts = [];
   if (item.dueAt) {
-    parts.push(`${item.fired ? "⏰ DUE" : "⏰"} ${formatDue(item.dueAt)}`);
+    parts.push(`${item.fired ? "⏰ DUE" : "⏰"} ${formatShort(item.dueAt)}`);
   }
   if (item.note) {
     parts.push(`📝 ${item.note.replace(/\s+/g, " ").trim()}`);
@@ -36,8 +36,8 @@ function openEditor(message) {
   browser.windows.create({
     type: "popup",
     url: `dialog/note.html?id=${message.id}`,
-    width: 480,
-    height: 460,
+    width: 580,
+    height: 600,
   });
 }
 
@@ -55,11 +55,11 @@ async function openSingleWindow(windowId, url, width, height) {
 }
 
 async function openDueWindow() {
-  dueWindowId = await openSingleWindow(dueWindowId, "dialog/due.html", 560, 420);
+  dueWindowId = await openSingleWindow(dueWindowId, "dialog/due.html", 580, 560);
 }
 
 async function openManager() {
-  managerWindowId = await openSingleWindow(managerWindowId, "dialog/manager.html", 980, 620);
+  managerWindowId = await openSingleWindow(managerWindowId, "dialog/manager.html", 820, 700);
 }
 
 // Keeps each item's folder list current when a message with a note is moved

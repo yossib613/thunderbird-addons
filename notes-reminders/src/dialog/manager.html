@@ -2,56 +2,67 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
   <title>Notes &amp; reminders</title>
   <link rel="stylesheet" href="dialog.css">
+  <link rel="stylesheet" href="manager.css">
 </head>
 <body>
-  <h1>Notes &amp; reminders</h1>
+  <main>
+    <header class="top">
+      <h1>Notes &amp; reminders</h1>
+      <div class="checks">
+        <label>Check every <input type="number" id="checkMinutes" min="1" max="1440" step="1"> min</label>
+        <button type="button" class="btn btn-secondary" id="checkNow">Check now</button>
+        <span class="status" id="status"></span>
+      </div>
+    </header>
+    <p class="error" id="statusError" role="alert"></p>
 
-  <div class="toolbar">
-    <input type="search" id="search" placeholder="Search subject, sender or note">
-    <select id="show">
-      <option value="all">All</option>
-      <option value="reminders">With a reminder</option>
-      <option value="due">Due now</option>
-      <option value="notes">Notes only</option>
-    </select>
-    <label>Check every <input type="number" id="checkMinutes" min="1" max="1440" step="1"> min</label>
-    <button type="button" id="checkNow">Check now</button>
-    <span class="muted" id="status"></span>
-  </div>
-  <div class="error" id="statusError"></div>
+    <div class="filters">
+      <input type="search" id="search" placeholder="Search subject, sender or note" aria-label="Search">
+      <div class="chips" role="group" aria-label="Show">
+        <button type="button" class="chip" data-show="all" aria-pressed="true">All</button>
+        <button type="button" class="chip" data-show="reminders" aria-pressed="false">With a reminder</button>
+        <button type="button" class="chip" data-show="due" aria-pressed="false">Due now</button>
+        <button type="button" class="chip" data-show="notes" aria-pressed="false">Notes only</button>
+      </div>
+    </div>
 
-  <table>
-    <thead>
-      <tr><th>Message</th><th>Note</th><th>Reminder</th><th></th></tr>
-    </thead>
-    <tbody id="rows"></tbody>
-  </table>
-  <p class="muted" id="empty" hidden>No notes or reminders.</p>
+    <ul class="items" id="rows"></ul>
+    <p class="empty" id="empty" hidden></p>
+  </main>
 
   <template id="row">
-    <tr>
-      <td class="message">
-        <a class="subject" title="Open the message"></a>
-        <div class="muted author"></div>
-        <div class="muted state"></div>
-      </td>
-      <td class="note"><textarea></textarea></td>
-      <td>
-        <div class="row"><input type="datetime-local" class="dueAt"></div>
-        <div class="row">
-          <label><input type="checkbox" class="markUnread"> Unread</label>
-          <label><input type="checkbox" class="flag"> Flag</label>
+    <li class="card item">
+      <div class="stub" aria-hidden="true">
+        <span class="stub-time"></span>
+        <span class="stub-date"></span>
+      </div>
+      <div class="card-body">
+        <button type="button" class="subject link" title="Open the email"></button>
+        <p class="author"></p>
+        <p class="state sr-only"></p>
+
+        <textarea class="note-field note" aria-label="Note"></textarea>
+
+        <div class="when">
+          <label class="when-label">Reminder
+            <input type="datetime-local" class="dueAt">
+          </label>
+          <label class="check"><input type="checkbox" class="markUnread"> Mark as unread</label>
+          <label class="check"><input type="checkbox" class="flag"> Flag</label>
         </div>
-        <div class="error rowError"></div>
-      </td>
-      <td class="actions">
-        <button type="button" class="save" disabled>Save</button>
-        <button type="button" class="done">Done</button>
-        <button type="button" class="delete">Delete</button>
-      </td>
-    </tr>
+
+        <p class="error" role="alert"></p>
+
+        <div class="actions">
+          <button type="button" class="btn btn-danger delete">Delete note</button>
+          <button type="button" class="btn btn-secondary done push">Mark as done</button>
+          <button type="button" class="btn btn-primary save" disabled>Save</button>
+        </div>
+      </div>
+    </li>
   </template>
 
   <script src="../common.js"></script>

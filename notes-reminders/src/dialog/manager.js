@@ -4,9 +4,18 @@
 
 const $ = id => document.getElementById(id);
 
-// Message-ID -> <tr> with unsaved edits. A storage change redraws the table,
-// so these rows are kept as they are to not lose what is being typed.
+// Message-ID -> <li> with unsaved edits. A storage change redraws the list,
+// so these items are kept as they are to not lose what is being typed.
 const dirtyRows = new Map();
+// The pressed filter chip: "all", "reminders", "due" or "notes".
+let show = "all";
+
+function stubState(item, dueAt) {
+  if (!dueAt) {
+    return "none";
+  }
+  return item.fired && dueAt == item.dueAt ? "due" : dueAt > Date.now() ? "upcoming" : "due";
+}
 
 // Due reminders first, then by reminder time, then notes without a reminder by subject.
 function compareItems([, a], [, b]) {
@@ -23,7 +32,6 @@ function compareItems([, a], [, b]) {
 }
 
 function matchesFilter(item) {
-  const show = $("show").value;
   if ((show == "reminders" && !item.dueAt) || (show == "due" && !item.fired) || (show == "notes" && item.dueAt)) {
     return false;
   }
@@ -36,20 +44,27 @@ function createRow(messageId, item) {
   const q = selector => tr.querySelector(selector);
 
   q(".subject").textContent = item.subject || "(no subject)";
-  q(".author").textContent = item.author || "";
-  q(".state").textContent = item.fired ? `DUE since ${formatDue(item.dueAt)}` : "";
+  q(".author").textContent = authorName(item.author);
+  q(".author").title = item.author || "";
+  q(".state").textContent = item.fired
+    ? `Due since ${formatDue(item.dueAt)}`
+    : item.dueAt ? `Reminder ${formatDue(item.dueAt)}` : "No reminder";
+  fillStub(q(".stub"), item.dueAt, stubState(item, item.dueAt));
   q("textarea").value = item.note || "";
   q(".dueAt").value = item.dueAt ? toInputValue(item.dueAt) : "";
   // Items saved without these fields default to the editor's defaults.
   q(".markUnread").checked = item.markUnread ?? true;
   q(".flag").checked = item.flag ?? true;
   q(".done").hidden = !item.dueAt;
-  tr.classList.toggle("due", !!item.fired);
+  q(".done").textContent = item.fired ? "Mark as done" : "Clear reminder";
 
   const markDirty = () => {
     dirtyRows.set(messageId, tr);
     tr.classList.add("dirty");
     q(".save").disabled = false;
+    q(".error").textContent = "";
+    const dueAt = fromInputValue(q(".dueAt").value);
+    fillStub(q(".stub"), dueAt, stubState(item, dueAt));
   };
   for (const input of tr.querySelectorAll("textarea, input")) {
     input.addEventListener("input", markDirty);
@@ -58,7 +73,7 @@ function createRow(messageId, item) {
 
   q(".subject").addEventListener("click", () =>
     openMessage(messageId, item).catch(e => {
-      q(".rowError").textContent = `Could not open the message: ${e.message}`;
+      q(".error").textContent = `Could not open the message: ${e.message}`;
     })
   );
 
@@ -66,7 +81,7 @@ function createRow(messageId, item) {
     const value = q(".dueAt").value;
     const dueAt = fromInputValue(value);
     if (value && !dueAt) {
-      q(".rowError").textContent = "Enter the full date and time, or clear it.";
+      q(".error").textContent = "Enter the full date and time, or clear it.";
       return;
     }
     dirtyRows.delete(messageId);
@@ -112,6 +127,9 @@ async function renderRows() {
   }
   $("rows").replaceChildren(...rows);
   $("empty").hidden = rows.length > 0;
+  $("empty").textContent = items.length
+    ? "No notes match. Clear the search or choose All."
+    : "No notes yet. Right-click an email and choose Note & reminder… to add one.";
 }
 
 async function renderStatus() {
@@ -121,7 +139,15 @@ async function renderStatus() {
 }
 
 $("search").addEventListener("input", renderRows);
-$("show").addEventListener("change", renderRows);
+for (const chip of document.querySelectorAll("[data-show]")) {
+  chip.addEventListener("click", () => {
+    show = chip.dataset.show;
+    for (const other of document.querySelectorAll("[data-show]")) {
+      other.setAttribute("aria-pressed", other == chip);
+    }
+    renderRows();
+  });
+}
 
 $("checkMinutes").addEventListener("change", async () => {
   const minutes = Math.round(Number($("checkMinutes").value));

@@ -1,0 +1,96 @@
+/* All notes window. Shared parts are in dialog.css. */
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.top h1 {
+  margin: 0;
+}
+
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+}
+
+.checks input[type="number"] {
+  width: 4.5em;
+}
+
+.status {
+  font-size: 0.9em;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 14px 0 12px;
+}
+
+.filters input[type="search"] {
+  flex: 1 1 220px;
+}
+
+.items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+/* An item with unsaved changes. */
+.item.dirty {
+  border-color: var(--blue);
+}
+
+.link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--ink);
+  text-align: start;
+}
+
+.link:hover {
+  color: var(--blue);
+  text-decoration: underline;
+}
+
+.note {
+  margin-top: 10px;
+  min-height: 56px;
+}
+
+.when {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px 16px;
+  margin-top: 10px;
+}
+
+.when-label {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+}
+
+.when .check {
+  padding-bottom: 6px;
+}
+
+.empty {
+  color: var(--muted);
+  padding: 24px 0;
+  text-align: center;
+}
