@@ -62,8 +62,25 @@ async function openManager() {
   managerWindowId = await openSingleWindow(managerWindowId, "dialog/manager.html", 820, 700);
 }
 
+function isTrash(folder) {
+  return !!folder?.specialUse?.includes("trash");
+}
+
+// Removes a deleted copy from the item's folder list. When no known copy is
+// left, removes the note too. A copy in another account (e.g. saved to the
+// Solutionist folder) keeps the note.
+async function dropCopy(messageId, folderId) {
+  const item = await getItem(messageId);
+  if (!item) {
+    return;
+  }
+  const folders = (item.folders || []).filter(id => id != folderId);
+  await putItem(messageId, folders.length ? { ...item, folders } : null);
+}
+
 // Keeps each item's folder list current when a message with a note is moved
 // or copied, e.g. saved from one account to a folder of another account.
+// Deleting a message usually moves it to Trash; that counts as a delete.
 async function trackFolders(originalMessages, newMessages, isMove) {
   const originals = [];
   for await (const message of listMessages(originalMessages)) {
@@ -76,6 +93,12 @@ async function trackFolders(originalMessages, newMessages, isMove) {
     if (!item || !message.folder) {
       continue;
     }
+    if (isTrash(message.folder)) {
+      if (isMove && original?.folder) {
+        await dropCopy(message.headerMessageId, original.folder.id);
+      }
+      continue;
+    }
     const folders = new Set(item.folders || []);
     if (isMove && original?.folder) {
       folders.delete(original.folder.id);
@@ -85,8 +108,16 @@ async function trackFolders(originalMessages, newMessages, isMove) {
   }
 }
 
+// Fired only for permanent deletes, e.g. Shift+Delete or emptying Trash.
+async function onDeleted(deletedMessages) {
+  for await (const message of listMessages(deletedMessages)) {
+    await dropCopy(message.headerMessageId, message.folder?.id);
+  }
+}
+
 browser.messages.onMoved.addListener((originals, moved) => trackFolders(originals, moved, true));
 browser.messages.onCopied.addListener((originals, copied) => trackFolders(originals, copied, false));
+browser.messages.onDeleted.addListener(onDeleted);
 
 // Marks the copies unread and/or flagged. A failure here must not stop the
 // reminder from showing, so errors are returned, not thrown.

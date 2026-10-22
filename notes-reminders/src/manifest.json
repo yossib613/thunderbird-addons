@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Notes & Reminders",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Add a note and a reminder to any message. Notes show in a message list column, also on collapsed threads.",
   "author": "Solutionist Ltd",
   "icons": {

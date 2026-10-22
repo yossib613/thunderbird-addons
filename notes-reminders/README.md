@@ -50,6 +50,10 @@ Notes saved before version 1.2.0 have no folder list and no `References` list. F
 still show, but the message is not marked unread or flagged, and the note does not show on a collapsed
 thread. To fix one, open it with **Note & reminder…** and click **Save**.
 
+When you delete a message (moved to Trash, or deleted permanently), the add-on removes that folder from
+the list. When no known copy is left, it removes the note and reminder too. A copy in another account
+keeps the note. Restoring a message from Trash does not bring the note back.
+
 ## Data
 
 Notes and reminders are stored in the add-on's local storage in your Thunderbird profile. They are not
